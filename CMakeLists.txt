@@ -3,4 +3,6 @@ project(UniversalMediaPlayer)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(UniversalMediaPlayer main.cpp)
+
+file(GLOB SRCPP src/*.cpp)
+add_executable(UniversalMediaPlayer ${SRCPP})
