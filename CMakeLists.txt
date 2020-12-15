@@ -16,12 +16,17 @@ if (APPLE)
 endif ()
 
 find_package(LIBVLC REQUIRED)
+add_subdirectory(lib/mongoose)
 file(GLOB SRCPP src/*.cpp)
 
 include_directories(
         lib/libvlcpp/
+        lib/mongoose/mongoose/
         ${LIBVLC_INCLUDE_DIR}
         )
 
 add_executable(UniversalMediaPlayer ${SRCPP})
-target_link_libraries(UniversalMediaPlayer ${LIBVLC_LIBRARY})
+target_link_libraries(UniversalMediaPlayer ${LIBVLC_LIBRARY} mongoose)
+
+add_executable(Test test/http_echo.cpp lib/mongoose/mongoose/mongoose.c)
+target_link_libraries(Test mongoose)
