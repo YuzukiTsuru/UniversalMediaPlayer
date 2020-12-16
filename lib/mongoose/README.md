@@ -1,3 +1,0 @@
-# CMake mongoose
-
-MIT

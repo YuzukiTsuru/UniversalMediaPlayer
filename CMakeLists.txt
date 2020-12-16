@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.17)
 project(UniversalMediaPlayer)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
 
@@ -16,17 +16,15 @@ if (APPLE)
 endif ()
 
 find_package(LIBVLC REQUIRED)
-add_subdirectory(lib/mongoose)
+add_subdirectory(lib/cpp-httplib)
+
 file(GLOB SRCPP src/*.cpp)
 
 include_directories(
         lib/libvlcpp/
-        lib/mongoose/mongoose/
+        lib/cpp-httplib/
         ${LIBVLC_INCLUDE_DIR}
         )
 
 add_executable(UniversalMediaPlayer ${SRCPP})
-target_link_libraries(UniversalMediaPlayer ${LIBVLC_LIBRARY} mongoose)
-
-add_executable(Test test/http_echo.cpp lib/mongoose/mongoose/mongoose.c)
-target_link_libraries(Test mongoose)
+target_link_libraries(UniversalMediaPlayer ${LIBVLC_LIBRARY})
