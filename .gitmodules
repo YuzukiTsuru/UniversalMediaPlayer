@@ -1,6 +1,0 @@
-[submodule "lib/libvlcpp"]
-	path = lib/libvlcpp
-	url = https://github.com/videolan/libvlcpp
-[submodule "lib/cpp-httplib"]
-	path = lib/cpp-httplib
-	url = https://github.com/yhirose/cpp-httplib
