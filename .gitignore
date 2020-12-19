@@ -306,7 +306,7 @@ DerivedData/
 
 ## Gcc Patch
 /*.gcno
-
+log/*.log
 ### Xcode Patch ###
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
