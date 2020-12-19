@@ -38,6 +38,6 @@ dictConfig({
     },
     'root': {
         'level': 'INFO',
-        'handlers': ['custom']
+        'handlers': ['default', 'custom']
     }
 })
