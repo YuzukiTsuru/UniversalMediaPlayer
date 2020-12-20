@@ -1,22 +1,5 @@
-import os
-import time
 from logging.config import dictConfig
-
-from config import *
-
-
-def get_custom_file_name():
-    def make_dir(make_dir_path):
-        path = make_dir_path.strip()
-        if not os.path.exists(path):
-            os.makedirs(path)
-        return path
-
-    file_name = 'ump-' + time.strftime('%Y-%m-%d', time.localtime(time.time())) + '.log'
-    file_folder = os.path.abspath(os.path.dirname(__file__)) + os.sep + LOG_ROOT
-    make_dir(file_folder)
-    return file_folder + os.sep + file_name
-
+from file import *
 
 dictConfig({
     'version': 1,
@@ -32,7 +15,7 @@ dictConfig({
         'custom': {
             'class': 'logging.FileHandler',
             'formatter': 'default',
-            'filename': get_custom_file_name(),
+            'filename': get_custom_log_file_name(),
             'encoding': 'utf-8'
         },
     },
