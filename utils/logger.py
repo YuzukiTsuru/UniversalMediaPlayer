@@ -21,7 +21,7 @@ def get_custom_file_name():
 dictConfig({
     'version': 1,
     'formatters': {'default': {
-        'format': '%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s',
+        'format': '%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(message)s',
     }},
     'handlers': {
         'default': {

@@ -27,7 +27,7 @@ class Stream:
         else:
             return 0, None
 
-    def PartialResponse(self, path, start, end=None):
+    def PartialResponse(self, path, start=0, end=None):
         self.logger.info('Requested: %s, %s', start, end)
         file_size = os.path.getsize(path)
 
@@ -44,20 +44,7 @@ class Stream:
             byte_data = fd.read(length)
         assert len(byte_data) == length
 
-        response = Response(
-            byte_data,
-            206,
-            mimetype=mimetypes.guess_type(path)[0],
-            direct_passthrough=True,
-        )
-        response.headers.add(
-            'Content-Range', 'bytes {0}-{1}/{2}'.format(
-                start, end, file_size,
-            ),
-        )
-        response.headers.add(
-            'Accept-Ranges', 'bytes'
-        )
+        response = Response(byte_data, 200, mimetype=mimetypes.guess_type(path)[0], direct_passthrough=False)
+
         self.logger.info('Response: %s', response)
-        self.logger.info('Response: %s', response.headers)
         return response

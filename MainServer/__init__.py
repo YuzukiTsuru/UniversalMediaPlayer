@@ -1,8 +1,9 @@
 from flask import Flask, request
 from .Stream import *
+from .utils import *
 
 
-def mainApp(config=None, logger=None, file_list=None):
+def mainApp(config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
 
@@ -10,34 +11,31 @@ def mainApp(config=None, logger=None, file_list=None):
         # load the instance config, if it exists, when not testing
         app.config.from_object(config)
 
-    # ensure the instance folder exists
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
-
-    streamer = Stream(logger)
+    streamer = Stream(app.logger)
 
     # Router
     @app.route('/')
     def _index():
         return 'UniversalMediaPlayer'
 
-    # Streamer
+    @app.route('/controller', methods=['POST', 'GET'])
+    def controller():
+        return 'UniversalMediaPlayer'
 
+    # Streamer
     @app.route('/player_stream', methods=['POST', 'GET'])
     def player_stream():
         return Response(streamer.StreamGen(b''), mimetype='multipart/x-mixed-replace; boundary=frame')
 
     @app.route('/player_main', methods=['POST', 'GET'])
     def player_main():
-        if file_list is None:
-            return streamer.PartialResponse(request.form.get("file"), 0)
+        if request.method == 'GET':
+            file_path = request.args.get("file")
+            if FileExist(file_path):
+                return streamer.PartialResponse(file_path)
+            else:
+                return Response(streamer.StreamGen(b''), mimetype='multipart/x-mixed-replace; boundary=frame')
         else:
-            play_list_data = request.form.get("file")
-
-    @app.errorhandler(404)
-    def page_not_found():
-        return 'This page does not exist', 404
+            pass
 
     return app
