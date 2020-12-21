@@ -15,7 +15,11 @@ def mainApp(app, player, config=None):
     @app.route('/controller', methods=['POST', 'GET'])
     def controller():
         if request.method == 'GET':
-            require_state = request.args.get("get_state")
+            request.args.get("get_state")
             return player.get_state
+
+    @app.route('/controller/get_state', methods=['GET'])
+    def controller_get_state():
+        return player.get_state
 
     return app
