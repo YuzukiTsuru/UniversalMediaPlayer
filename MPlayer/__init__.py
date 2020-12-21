@@ -10,8 +10,11 @@ class MPlayer:
     def __init__(self, logger):
         self.logger = logger
         self.fifo_file = get_custom_fifo_file_name()
-        self.MPlayerController(logger, self.fifo_file)
+        self.controller = self.MPlayerController(logger, self.fifo_file)
         pass
+
+    def get_state(self):
+        return self.controller.state
 
     def command_runner(self, command, wait=False):
         cmd = shlex.split(command)
@@ -35,7 +38,9 @@ class MPlayer:
         self.command_runner('sudo mplayer -slave -input file={}'.format(self.fifo_file))
 
     class MPlayerController:
+
         def __init__(self, logger, fifo):
+            self.state = 'stop'
             self.logger = logger
             self.fifo = fifo
 
@@ -66,3 +71,4 @@ class MPlayer:
 
         def Play(self):
             self.fifo_writer('play')
+            self.state = 'play'
